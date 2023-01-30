@@ -16,7 +16,7 @@ namespace BethanysPieShop.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.11")
+                .HasAnnotation("ProductVersion", "6.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -87,6 +87,30 @@ namespace BethanysPieShop.Migrations
                     b.ToTable("Pies");
                 });
 
+            modelBuilder.Entity("BethanysPieShop.Models.ShoppingCardItem", b =>
+                {
+                    b.Property<int>("ShoppingCardItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ShoppingCardItemId"), 1L, 1);
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PieId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ShoppingCartId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ShoppingCardItemId");
+
+                    b.HasIndex("PieId");
+
+                    b.ToTable("ShoppingCardItems");
+                });
+
             modelBuilder.Entity("BethanysPieShop.Models.Pie", b =>
                 {
                     b.HasOne("BethanysPieShop.Models.Category", "Category")
@@ -96,6 +120,17 @@ namespace BethanysPieShop.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("BethanysPieShop.Models.ShoppingCardItem", b =>
+                {
+                    b.HasOne("BethanysPieShop.Models.Pie", "Pie")
+                        .WithMany()
+                        .HasForeignKey("PieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pie");
                 });
 
             modelBuilder.Entity("BethanysPieShop.Models.Category", b =>

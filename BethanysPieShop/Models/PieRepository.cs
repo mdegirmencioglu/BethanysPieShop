@@ -11,8 +11,8 @@ namespace BethanysPieShop.Models
             _bethanysPieShopDbContext = bethanysPieShopDbContext;
         }
 
-        public IEnumerable<Pie> AllPies {
-
+        public IEnumerable<Pie> AllPies
+        {
             get
             {
                 return _bethanysPieShopDbContext.Pies.Include(c => c.Category);
@@ -21,16 +21,20 @@ namespace BethanysPieShop.Models
 
         public IEnumerable<Pie> PiesOfTheWeek
         {
-
             get
             {
-                return _bethanysPieShopDbContext.Pies.Include(c => c.Category).Where(p=>p.IsPieOfTheWeek);
+                return _bethanysPieShopDbContext.Pies.Include(c => c.Category).Where(p => p.IsPieOfTheWeek);
             }
         }
 
         public Pie? GetPieById(int pieId)
         {
             return _bethanysPieShopDbContext.Pies.FirstOrDefault(p => p.PieId == pieId);
+        }
+
+        public IEnumerable<Pie> SearchPies(string searchQuery)
+        {
+            throw new NotImplementedException();
         }
     }
 }
